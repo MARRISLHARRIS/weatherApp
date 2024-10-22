@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 
 const WeatherSummarySchema = new mongoose.Schema({
-  date: { type: Date, required: true },
-  averageTemp: { type: Number, required: true },
-  maxTemp: { type: Number, required: true },
-  minTemp: { type: Number, required: true },
-  dominantCondition: { type: String, required: true },
-  humidity: { type: Number, required: true },
-  feels_like: { type: Number, required: true },
-  windSpeed: { type: Number, required: true },
+  date: { type: String, required: true },
+  city: { type: String, required: true }, // New field for storing city name
+  averageTemp: Number,
+  maxTemp: Number,
+  minTemp: Number,
+  dominantCondition: String,
+  humidity: Number,
+  feels_like: Number,
+  windSpeed: Number,
+  updateCount: { type: Number, default: 1 },
 });
 
-module.exports = mongoose.model('WeatherSummary', WeatherSummarySchema);
+const WeatherSummary = mongoose.model('WeatherSummary', WeatherSummarySchema);
+
+module.exports = WeatherSummary;

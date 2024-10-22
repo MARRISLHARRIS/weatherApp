@@ -37,7 +37,7 @@ const sendAlertEmail = async (email, message) => {
 };
 
 // Cron Job for daily rollups and alerting
-cron.schedule('*/30 * * * *', async () => {
+cron.schedule('*/5 * * * *', async () => {
   const cities = [
     'Delhi',
     'Mumbai',
@@ -50,21 +50,50 @@ cron.schedule('*/30 * * * *', async () => {
   for (const city of cities) {
     try {
       const weatherData = await fetchWeather(city);
+      const dateKey = weatherData.date.toISOString().split('T')[0];
 
-      // Create a new weather summary
-      const summary = new WeatherSummary({
-        date: weatherData.date,
-        averageTemp: weatherData.averageTemp,
-        maxTemp: weatherData.maxTemp,
-        minTemp: weatherData.minTemp,
-        dominantCondition: weatherData.dominantCondition,
-        humidity: weatherData.humidity,
-        feels_like: weatherData.feels_like,
-        windSpeed: weatherData.windSpeed,
+      // Include city in the query to ensure unique records for each city and date
+      let dailySummary = await WeatherSummary.findOne({
+        date: dateKey,
+        city: city,
       });
 
-      await summary.save();
-      console.log(`Weather summary for ${city} saved!`);
+      if (!dailySummary) {
+        // If no summary exists for the city and date, create a new one
+        dailySummary = new WeatherSummary({
+          date: dateKey,
+          city: city, // Store the city name
+          averageTemp: weatherData.averageTemp,
+          maxTemp: weatherData.maxTemp,
+          minTemp: weatherData.minTemp,
+          dominantCondition: weatherData.dominantCondition,
+          humidity: weatherData.humidity,
+          feels_like: weatherData.feels_like,
+          windSpeed: weatherData.windSpeed,
+          updateCount: 1, // Initialize update count
+        });
+      } else {
+        // Update existing summary for the city and date
+        dailySummary.averageTemp =
+          (dailySummary.averageTemp * dailySummary.updateCount +
+            weatherData.averageTemp) /
+          (dailySummary.updateCount + 1); // Calculate new average
+
+        dailySummary.maxTemp = Math.max(
+          dailySummary.maxTemp,
+          weatherData.maxTemp
+        ); // Update max temperature
+        dailySummary.minTemp = Math.min(
+          dailySummary.minTemp,
+          weatherData.minTemp
+        ); // Update min temperature
+
+        dailySummary.updateCount += 1; // Increment update count
+      }
+
+      // Save the daily summary for this city
+      await dailySummary.save();
+      console.log(`Weather summary for ${city} on ${dateKey} saved/updated!`);
 
       // Alerting logic
       const users = await UserSubscription.find({});

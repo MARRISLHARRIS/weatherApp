@@ -19,6 +19,28 @@ router.post('/subscribe', async (req, res) => {
   }
 });
 
+// update subscription
+router.put('/update-subscription/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
+    const { temperatureUnit, alertThreshold } = req.body;
+
+    const subscription = await UserSubscription.findOneAndUpdate(
+      { email: email },
+      { temperatureUnit, alertThreshold },
+      { new: true }
+    );
+
+    if (subscription) {
+      res.json({ message: 'Subscription updated', subscription });
+    } else {
+      res.json({ message: 'User is not subscribed' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // create a new route to know wheather user is subscribed or not
 router.get('/check-subscription/:email', async (req, res) => {
   try {

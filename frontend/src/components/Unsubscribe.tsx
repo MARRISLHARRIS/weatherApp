@@ -31,55 +31,53 @@ const FormSchema = z.object({
 
 interface SubscribeProps {
   setIsOpen: (isOpen: boolean) => void;
+  data: {
+    alertThreshold: string;
+    temperatureUnit: 'Celsius' | 'Kelvin';
+  };
   setIsSubscribed: (isSubscribed: boolean) => void;
-  dataChanged: boolean;
+  unsubscribeUser: (email: string) => void;
   setDataChanged: (dataChanged: boolean) => void;
+  dataChanged: boolean;
 }
 
-function Subscribe({
+function Unsubscribe({
   setIsOpen,
-  setIsSubscribed,
-  dataChanged,
+  data,
+  unsubscribeUser,
   setDataChanged,
+  dataChanged,
 }: SubscribeProps) {
   const { user } = useKindeBrowserClient();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      alertThreshold: '',
+      alertThreshold: data?.alertThreshold,
+      temperatureUnit: data?.temperatureUnit,
     },
   });
 
+  // Submit updated subscription
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const { temperatureUnit, alertThreshold } = data;
     const usermail = user?.email;
-
-    // Parse alertThreshold to a number
     const parsedAlertThreshold = Number(alertThreshold);
 
-    // Send the subscription data to the API
     axios
-      .post('/api/subscribe', {
+      .put('/api/updateSubscription', {
         email: usermail,
         temperatureUnit,
         alertThreshold: parsedAlertThreshold,
       })
       .then(() => {
-        setIsSubscribed(true); // Update the subscription status
-        toast.success('Subscription successful!');
-        setDataChanged(!dataChanged); // Update the data
+        toast.success('Subscription updated successfully!');
         setIsOpen(false); // Close the dialog
+        setDataChanged(!dataChanged); // Update the subscription status
       })
       .catch((error) => {
-        toast.error('Subscription failed: ' + error.message);
+        toast.error('Subscription update failed: ' + error.message);
       });
-
-    console.log({
-      temperatureUnit,
-      alertThreshold: parsedAlertThreshold,
-      usermail,
-    });
   }
 
   return (
@@ -120,32 +118,43 @@ function Subscribe({
           name="alertThreshold"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Alert Threshold (
-                <span className="text-sm font-normal">in °C</span>)
-              </FormLabel>
+              <FormLabel>Alert Threshold (°C)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
                   placeholder="alert threshold"
-                  className="grid grid-cols-4 items-center gap-4"
                   {...field}
+                  value={field.value}
                 />
               </FormControl>
               <FormDescription>
-                Once the temperature reaches this threshold, you will be
-                alerted.
+                Set the temperature threshold for alerts.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <DialogFooter className="py-3">
-          <Button type="submit">Subscribe</Button>
+          <div className="flex gap-3 items-center justify-between w-full">
+            <Button
+              variant="outline"
+              className="w-full bg-red-500 text-white"
+              onClick={() => user?.email && unsubscribeUser(user?.email)}
+            >
+              Unsubscribe
+            </Button>
+            <Button
+              type="submit"
+              className="w-full bg-green-500 text-white"
+              variant="outline"
+            >
+              Save
+            </Button>
+          </div>
         </DialogFooter>
       </form>
     </Form>
   );
 }
 
-export default Subscribe;
+export default Unsubscribe;
