@@ -15,8 +15,9 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import Subscribe from './Subscribe';
 import toast from 'react-hot-toast';
 import Unsubscribe from './Unsubscribe';
+import { CloudDrizzle } from 'lucide-react';
 
-interface NavbarProps { 
+interface NavbarProps {
   dataChanged: boolean;
   setDataChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -79,10 +80,15 @@ function Navbar({ dataChanged, setDataChanged }: NavbarProps) {
 
   return (
     <div className="flex items-center justify-between w-full p-3 px-10 border-b shadow">
-      <Link href={'/'} className="text-xl font-semibold">
-        Weather App
-      </Link>
-      <div className="flex items-center gap-7 text-md">
+      <div className="">
+        <Link
+          href={'/'}
+          className="text-xl flex items-center gap-2 font-semibold"
+        >
+          <CloudDrizzle /> Weather App
+        </Link>
+      </div>
+      <div className="flex items-center gap-7 text-md ">
         <Link href="/" className="hover:underline underline-offset-2">
           {' '}
           Home{' '}
@@ -91,9 +97,13 @@ function Navbar({ dataChanged, setDataChanged }: NavbarProps) {
           {' '}
           Alerts{' '}
         </Link>
-        <Link href="/summaries" className="hover:underline underline-offset-2">
+        <Link href="/#" className="hover:underline underline-offset-2">
           {' '}
-          Weather Summaries{' '}
+          About
+        </Link>
+        <Link href="/#" className="hover:underline underline-offset-2">
+          {' '}
+          Contact
         </Link>
       </div>
       <div className="flex items-center gap-4">

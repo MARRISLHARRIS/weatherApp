@@ -1,5 +1,6 @@
 const express = require('express');
 const UserSubscription = require('../models/UserSubscription');
+const Alert = require('../models/Alert');
 const router = express.Router();
 
 router.post('/subscribe', async (req, res) => {
@@ -68,6 +69,20 @@ router.delete('/unsubscribe/:email', async (req, res) => {
     } else {
       res.json({ message: 'User is not subscribed' });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// alerts
+router.get('/alerts/:email', async (req, res) => {
+  try {
+    // get all alerts and return that specific user alerts
+    const email = req.params.email;
+    const alerts = await Alert.find({
+      userEmail: email,
+    });
+    res.json({ alerts });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
