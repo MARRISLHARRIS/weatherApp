@@ -15,7 +15,7 @@ export async function GET(req: Request) {
 
     // Send a request to the Express server to check the subscription status
     const response = await axios.get(
-      `http://localhost:5000/api/user/check-subscription/${email}`
+      `http://backend:5000/api/user/check-subscription/${email}`
     );
     console.log(response.data);
 

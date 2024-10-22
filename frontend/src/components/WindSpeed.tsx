@@ -129,9 +129,11 @@ function WindSpeed() {
 
   return (
     <div className="max-w-6xl w-full p-6 mx-auto flex items-center gap-3 flex-col">
-      <h2 className="text-center text-xl font-bold mb-4">
-        Wind Speed Overview
-      </h2>
+      {windData.length > 0 && (
+        <h2 className="text-center text-xl font-bold mb-4">
+          Wind Speed Overview
+        </h2>
+      )}
       <Line data={chartData} options={chartOptions} />
     </div>
   );

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
     // Send data to the Express server running on localhost:5000
     const response = await axios.post(
-      'http://localhost:5000/api/user/subscribe',
+      'http://backend:5000/api/user/subscribe',
       {
         email,
         temperatureUnit,

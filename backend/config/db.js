@@ -7,7 +7,8 @@ dotenv.config();
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      'mongodb://admin:password@localhost:27017/weather_app?authSource=admin',
+      // 'mongodb://localhost:27017/weather_app',
+      'mongodb://admin:password@mongodb:27017/weather_app?authSource=admin',
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

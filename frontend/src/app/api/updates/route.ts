@@ -5,7 +5,7 @@ export async function GET() {
   try {
     // Fetch all weather updates using Axios
     const response = await axios.get(
-      'http://localhost:5000/api/weather/updates' // Update the endpoint to fetch weather updates
+      'http://backend:5000/api/weather/updates' // Update the endpoint to fetch weather updates
     );
 
     const updates = response.data; // Axios automatically parses JSON

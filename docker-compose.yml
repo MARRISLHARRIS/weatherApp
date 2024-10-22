@@ -4,29 +4,36 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile.prod # Use a production Dockerfile
     container_name: frontend_container
     ports:
       - '3000:3000'
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/usr/src/app
-    command: npm run dev
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/weather_app?authSource=admin
+      - KINDE_CLIENT_ID=0db0cd7be5504395a103ae9e38877d83
+      - KINDE_CLIENT_SECRET=smgXZZwvVzGXD7fdQwVG1PFAA8mcQwmn0Ej3qwrB8B5Yutwx6tu
+      - KINDE_ISSUER_URL=https://weatherappzeotap.kinde.com
+      - KINDE_SITE_URL=http://localhost:3000
+      - KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
+      - KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/
     restart: unless-stopped
 
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile.prod # Use a production Dockerfile
     container_name: backend_container
     ports:
       - '5000:5000'
     environment:
-      - MONGO_URI=mongodb://admin:password@mongodb:27017/rule-engine?authSource=admin
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/weather_app?authSource=admin
+      - OPENWEATHER_API_KEY=ca7f2aef1cc8ae31367f3e7f035ebbac
+      - EMAIL_USER=kavikumar.justcode@gmail.com
+      - EMAIL_PASS=hjyy dchy cimd knhq
     depends_on:
       - mongodb
-    volumes:
-      - ./backend:/usr/src/app
-    command: npm run dev
     restart: unless-stopped
 
   mongodb:
