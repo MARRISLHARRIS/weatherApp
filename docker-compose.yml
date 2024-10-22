@@ -1,33 +1,33 @@
 version: '3.8'
 
 services:
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   container_name: frontend_container
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on:
-  #     - backend
-  #   volumes:
-  #     - ./frontend:/usr/src/app
-  #   command: npm run dev
-  #   restart: unless-stopped
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend_container
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/src/app
+    command: npm run dev
+    restart: unless-stopped
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   container_name: backend_container
-  #   ports:
-  #     - '5000:5000'
-  #   environment:
-  #     - MONGO_URI=mongodb://admin:password@mongodb:27017/rule-engine?authSource=admin
-  #   depends_on:
-  #     - mongodb
-  #   volumes:
-  #     - ./backend:/usr/src/app
-  #   command: npm run dev
-  #   restart: unless-stopped
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_container
+    ports:
+      - '5000:5000'
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/rule-engine?authSource=admin
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend:/usr/src/app
+    command: npm run dev
+    restart: unless-stopped
 
   mongodb:
     image: mongo:latest
