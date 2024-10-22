@@ -13,6 +13,7 @@ import {
 import { LoginLink, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import Subscribe from './Subscribe';
+import toast from 'react-hot-toast';
 
 function Navbar() {
   const { isAuthenticated, user } = useKindeBrowserClient();
@@ -56,6 +57,7 @@ function Navbar() {
 
       if (response.ok) {
         console.log(data.message); // Handle success message
+        toast.success('Unsubscribed successfully!');
         setIsSubscribed(false);
       } else {
         console.error(data.error); // Handle error message
