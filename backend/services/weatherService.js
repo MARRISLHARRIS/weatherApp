@@ -10,7 +10,7 @@ const fetchCoordinates = async (city) => {
   if (response.data.length === 0) {
     throw new Error('City not found');
   }
-  return response.data[0]; // Return the first matching location
+  return response.data[0];
 };
 
 const fetchWeather = async (city) => {
@@ -27,19 +27,19 @@ const fetchWeather = async (city) => {
   const tempC = weatherData.main.temp - 273.15;
   const maxTempC = weatherData.main.temp_max - 273.15;
   const minTempC = weatherData.main.temp_min - 273.15;
-  const feelsLikeC = weatherData.main.feels_like - 273.15; // Feels like temperature
-  const humidity = weatherData.main.humidity; // Humidity percentage
-  const windSpeed = weatherData.wind.speed; // Wind speed
+  const feelsLikeC = weatherData.main.feels_like - 273.15;
+  const humidity = weatherData.main.humidity;
+  const windSpeed = weatherData.wind.speed;
 
   return {
-    date: new Date(weatherData.dt * 1000), // Convert Unix timestamp to Date
+    date: new Date(weatherData.dt * 1000),
     averageTemp: tempC,
     maxTemp: maxTempC,
     minTemp: minTempC,
     dominantCondition: weatherData.weather[0].main,
-    humidity: humidity, // New field
-    feels_like: feelsLikeC, // New field
-    windSpeed: windSpeed, // New field
+    humidity: humidity,
+    feels_like: feelsLikeC,
+    windSpeed: windSpeed,
   };
 };
 

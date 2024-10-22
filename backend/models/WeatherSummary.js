@@ -1,4 +1,3 @@
-// models/WeatherSummary.js
 const mongoose = require('mongoose');
 
 const WeatherSummarySchema = new mongoose.Schema({
@@ -7,9 +6,9 @@ const WeatherSummarySchema = new mongoose.Schema({
   maxTemp: { type: Number, required: true },
   minTemp: { type: Number, required: true },
   dominantCondition: { type: String, required: true },
-  humidity: { type: Number, required: true }, // New field
-  feels_like: { type: Number, required: true }, // New field
-  windSpeed: { type: Number, required: true }, // New field
+  humidity: { type: Number, required: true },
+  feels_like: { type: Number, required: true },
+  windSpeed: { type: Number, required: true },
 });
 
 module.exports = mongoose.model('WeatherSummary', WeatherSummarySchema);
