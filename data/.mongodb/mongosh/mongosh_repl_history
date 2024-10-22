@@ -1,0 +1,10 @@
+db.alerts.find({})
+show collections
+use weather_app
+use admin
+db.weatherupdates.deleteMany({})
+show collections
+db.weathersummaries.find({})
+db.usersubscriptions.find({})
+use weather_app
+use admin
