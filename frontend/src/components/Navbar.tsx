@@ -16,13 +16,17 @@ import Subscribe from './Subscribe';
 import toast from 'react-hot-toast';
 import Unsubscribe from './Unsubscribe';
 
-function Navbar() {
+interface NavbarProps { 
+  dataChanged: boolean;
+  setDataChanged: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function Navbar({ dataChanged, setDataChanged }: NavbarProps) {
   const { isAuthenticated, user } = useKindeBrowserClient();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSubscribed, setIsSubscribed] = React.useState(false);
   const email = user?.email;
   const [data, setData] = React.useState<any>(null);
-  const [dataChanged, setDataChanged] = React.useState(false);
 
   React.useEffect(() => {
     const checkSubscription = async () => {

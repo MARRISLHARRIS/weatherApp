@@ -10,6 +10,7 @@ const WeatherSummarySchema = new mongoose.Schema({
   humidity: Number,
   feels_like: Number,
   windSpeed: Number,
+  icon: String,
   updateCount: { type: Number, default: 1 },
 });
 

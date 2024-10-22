@@ -1,18 +1,14 @@
-// src/app/api/summaries/route.ts
+import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // Fetch all weather summaries
-    const response = await fetch(
+    // Fetch all weather summaries using Axios
+    const response = await axios.get(
       'http://localhost:5000/api/weather/weathersummaries'
     );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const summaries = await response.json(); // Parse the response as JSON
+    const summaries = response.data; // Axios automatically parses JSON
     console.log('Fetched Summaries:', summaries); // Log the fetched summaries
 
     // Check if summaries are empty
@@ -24,7 +20,10 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching summaries:', error);
     return NextResponse.json(
-      { message: 'Error fetching summaries', error: error.message },
+      {
+        message: 'Error fetching summaries',
+        error: error.message || 'Unknown error',
+      },
       { status: 500 }
     );
   }

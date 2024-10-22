@@ -53,7 +53,8 @@ function Unsubscribe({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      alertThreshold: data?.alertThreshold,
+      // convert alertThreshold to string
+      alertThreshold: data?.alertThreshold.toString(),
       temperatureUnit: data?.temperatureUnit,
     },
   });
@@ -121,7 +122,6 @@ function Unsubscribe({
               <FormLabel>Alert Threshold (°C)</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
                   placeholder="alert threshold"
                   {...field}
                   value={field.value}

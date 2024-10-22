@@ -5,8 +5,10 @@ const userRoutes = require('./routes/user');
 const cron = require('node-cron');
 const { fetchWeather } = require('./services/weatherService');
 const WeatherSummary = require('./models/WeatherSummary');
+const WeatherUpdate = require('./models/WeatherUpdate');
 const UserSubscription = require('./models/UserSubscription');
 const nodemailer = require('nodemailer');
+const Alert = require('./models/Alert');
 require('dotenv').config();
 
 const app = express();
@@ -62,7 +64,7 @@ cron.schedule('*/5 * * * *', async () => {
         // If no summary exists for the city and date, create a new one
         dailySummary = new WeatherSummary({
           date: dateKey,
-          city: city, // Store the city name
+          city: city,
           averageTemp: weatherData.averageTemp,
           maxTemp: weatherData.maxTemp,
           minTemp: weatherData.minTemp,
@@ -70,7 +72,8 @@ cron.schedule('*/5 * * * *', async () => {
           humidity: weatherData.humidity,
           feels_like: weatherData.feels_like,
           windSpeed: weatherData.windSpeed,
-          updateCount: 1, // Initialize update count
+          icon: weatherData.icon,
+          updateCount: 1,
         });
       } else {
         // Update existing summary for the city and date
@@ -82,18 +85,40 @@ cron.schedule('*/5 * * * *', async () => {
         dailySummary.maxTemp = Math.max(
           dailySummary.maxTemp,
           weatherData.maxTemp
-        ); // Update max temperature
+        );
         dailySummary.minTemp = Math.min(
           dailySummary.minTemp,
           weatherData.minTemp
-        ); // Update min temperature
+        );
 
         dailySummary.updateCount += 1; // Increment update count
+        dailySummary.dominantCondition = weatherData.dominantCondition;
+        dailySummary.humidity = weatherData.humidity;
+        dailySummary.feels_like = weatherData.feels_like;
+        dailySummary.windSpeed = weatherData.windSpeed;
+        dailySummary.icon = weatherData.icon;
       }
 
       // Save the daily summary for this city
       await dailySummary.save();
       console.log(`Weather summary for ${city} on ${dateKey} saved/updated!`);
+
+      // Save the weather update in the WeatherUpdate model
+      const weatherUpdate = new WeatherUpdate({
+        date: weatherData.date,
+        city: city,
+        averageTemp: weatherData.averageTemp,
+        maxTemp: weatherData.maxTemp,
+        minTemp: weatherData.minTemp,
+        dominantCondition: weatherData.dominantCondition,
+        humidity: weatherData.humidity,
+        feels_like: weatherData.feels_like,
+        windSpeed: weatherData.windSpeed,
+        icon: weatherData.icon,
+      });
+
+      await weatherUpdate.save();
+      console.log(`Weather update for ${city} on ${dateKey} saved!`);
 
       // Alerting logic
       const users = await UserSubscription.find({});
@@ -104,6 +129,13 @@ cron.schedule('*/5 * * * *', async () => {
         ) {
           const message = `Alert: Temperature in ${city} exceeds ${user.alertThreshold} degrees Celsius!`;
           await sendAlertEmail(user.email, message);
+          const alert = new Alert({
+            city: city,
+            userEmail: user.email,
+            message: message,
+          });
+          await alert.save(); // Save the alert
+          console.log(`Alert sent and saved for ${user.email}: ${message}`);
         }
       }
     } catch (error) {

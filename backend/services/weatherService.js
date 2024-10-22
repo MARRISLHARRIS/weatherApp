@@ -30,6 +30,7 @@ const fetchWeather = async (city) => {
   const feelsLikeC = weatherData.main.feels_like - 273.15;
   const humidity = weatherData.main.humidity;
   const windSpeed = weatherData.wind.speed;
+  const icon = weatherData.weather[0].icon;
 
   return {
     date: new Date(weatherData.dt * 1000),
@@ -40,6 +41,7 @@ const fetchWeather = async (city) => {
     humidity: humidity,
     feels_like: feelsLikeC,
     windSpeed: windSpeed,
+    icon: icon,
   };
 };
 
