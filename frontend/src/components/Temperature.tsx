@@ -38,7 +38,7 @@ function Temperature() {
       try {
         const response = await fetch('/api/updates'); // Adjust the API endpoint if necessary
         const data = await response.json();
-        console.log('Data:', data);
+        // console.log('Data:', data);
 
         // Extracting the createdAt, city, and average temperature
         const tempData = data.map((item: any) => ({
@@ -48,7 +48,7 @@ function Temperature() {
         }));
 
         setTemperatureData(tempData);
-        console.log('Temperature Data:', tempData);
+        // console.log('Temperature Data:', tempData);
       } catch (error) {
         console.error('Error fetching temperature data:', error);
       }

@@ -75,11 +75,11 @@ function Subscribe({
         toast.error('Subscription failed: ' + error.message);
       });
 
-    console.log({
-      temperatureUnit,
-      alertThreshold: parsedAlertThreshold,
-      usermail,
-    });
+    // console.log({
+    //   temperatureUnit,
+    //   alertThreshold: parsedAlertThreshold,
+    //   usermail,
+    // });
   }
 
   return (

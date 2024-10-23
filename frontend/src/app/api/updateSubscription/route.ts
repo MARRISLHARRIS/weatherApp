@@ -8,6 +8,7 @@ export async function PUT(req: Request) {
 
     // Send data to the Express server running on localhost:5000
     const response = await axios.put(
+      // `http://localhost:5000/api/user/update-subscription/${email}`,
       `http://backend:5000/api/user/update-subscription/${email}`,
       {
         temperatureUnit,

@@ -39,7 +39,12 @@ function Header({ dataChanged }: HeaderProps) {
       try {
         const weatherRes = await fetch('/api/summaries');
         const weatherData = await weatherRes.json();
-        setWeatherData(weatherData);
+        // filter out the weather data for the current date
+        const currentDate = new Date().toISOString().split('T')[0];
+        const filteredWeatherData = weatherData.filter(
+          (weather: WeatherProps) => weather.date === currentDate
+        );
+        setWeatherData(filteredWeatherData);
       } catch (error) {
         console.error('Error fetching weather data:', error);
       }
@@ -51,7 +56,7 @@ function Header({ dataChanged }: HeaderProps) {
           `/api/subscribed?email=${user?.email}`
         );
         const subscriptionData = await subscriptionRes.json();
-        console.log(subscriptionData);
+        // console.log(subscriptionData);
         setTempUnit(
           getShorthandUnit(subscriptionData.subscription.temperatureUnit)
         );

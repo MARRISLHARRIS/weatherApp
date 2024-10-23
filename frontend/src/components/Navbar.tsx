@@ -36,7 +36,7 @@ function Navbar({ dataChanged, setDataChanged }: NavbarProps) {
         try {
           const response = await fetch(`/api/subscribed?email=${user?.email}`);
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
 
           if (data.subscription) {
             setIsSubscribed(true);
@@ -65,7 +65,7 @@ function Navbar({ dataChanged, setDataChanged }: NavbarProps) {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message); // Handle success message
+        // console.log(data.message); // Handle success message
         toast.success('Unsubscribed successfully!');
         setIsSubscribed(false);
         setData(null);

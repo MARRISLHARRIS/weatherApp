@@ -18,6 +18,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  compiler: {
+    // Remove console logs only in production, excluding error logs
+    removeConsole: { exclude: ['error'] },
+  },
 };
 
 export default nextConfig;

@@ -42,7 +42,7 @@ function AlertsPage() {
   }, [isAuthenticated, user?.email]); // Fetch alerts when user authentication state or email changes
 
   return (
-    <>
+    <div>
       {isAuthenticated ? (
         <div className="max-w-6xl mx-auto p-4 pt-7 w-full">
           <h2 className="text-2xl font-bold mb-4">Weather Alerts</h2>
@@ -76,7 +76,7 @@ function AlertsPage() {
           <h1 className="text-center">Please Login to view your alerts.</h1>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

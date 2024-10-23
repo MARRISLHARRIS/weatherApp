@@ -1,11 +1,14 @@
+'use client';
 // import Card from '@/components/Card';
 import Header from '@/components/Header';
 // import Navbar from '@/components/Navbar';
 import Temperature from '@/components/Temperature';
 import WindSpeed from '@/components/WindSpeed';
+import { useStore } from '@/lib/utils';
 import React from 'react';
 
-export default function Home({ dataChanged }: { dataChanged: boolean }) {
+export default function Home() {
+  const { dataChanged, setDataChanged } = useStore();
   return (
     <main className="flex flex-col w-full">
       <Header dataChanged={dataChanged} />

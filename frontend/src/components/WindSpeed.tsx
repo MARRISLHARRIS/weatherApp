@@ -38,7 +38,7 @@ function WindSpeed() {
       try {
         const response = await fetch('/api/updates');
         const data = await response.json();
-        console.log('Data:', data);
+        // console.log('Data:', data);
 
         // Extracting the createdAt, city, and wind speed
         const windSpeedData = data.map((item: any) => ({
@@ -48,7 +48,7 @@ function WindSpeed() {
         }));
 
         setWindData(windSpeedData);
-        console.log('Wind Speed Data:', windSpeedData);
+        // console.log('Wind Speed Data:', windSpeedData);
       } catch (error) {
         console.error('Error fetching wind speed data:', error);
       }

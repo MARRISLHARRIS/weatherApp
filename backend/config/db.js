@@ -9,6 +9,7 @@ const connectDB = async () => {
     await mongoose.connect(
       // 'mongodb://localhost:27017/weather_app',
       'mongodb://admin:password@mongodb:27017/weather_app?authSource=admin',
+      // 'mongodb://admin:password@localhost:27017/weather_app?authSource=admin',
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

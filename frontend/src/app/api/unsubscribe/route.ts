@@ -14,6 +14,7 @@ export async function DELETE(req: Request) {
     // Send a request to the Express server to unsubscribe the user
     const response = await axios.delete(
       `http://backend:5000/api/user/unsubscribe/${email}`
+      // `http://localhost:5000/api/user/unsubscribe/${email}`
     );
 
     // Return the response from the Express server

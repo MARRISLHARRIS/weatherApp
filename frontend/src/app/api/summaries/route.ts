@@ -5,11 +5,12 @@ export async function GET() {
   try {
     // Fetch all weather summaries using Axios
     const response = await axios.get(
+      // 'http://localhost:5000/api/weather/weathersummaries'
       'http://backend:5000/api/weather/weathersummaries'
     );
 
     const summaries = response.data; // Axios automatically parses JSON
-    console.log('Fetched Summaries:', summaries); // Log the fetched summaries
+    // console.log('Fetched Summaries:', summaries); // Log the fetched summaries
 
     // Check if summaries are empty
     if (!summaries || summaries.length === 0) {
