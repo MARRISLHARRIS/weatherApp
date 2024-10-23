@@ -1,6 +1,8 @@
 # Real-Time Weather Monitoring System
 
-This project implements a real-time weather monitoring system that retrieves data from the [OpenWeatherMap API](https://openweathermap.org/) to track and summarize weather conditions for major Indian cities. The system processes this data to provide real-time insights, including daily weather summaries, temperature rollups, and alert notifications when weather thresholds are exceeded.
+This project implements a real-time weather monitoring system that retrieves data from the [OpenWeatherMap API](https://openweathermap.org/) to track and summarize weather conditions for major Indian cities. The system processes this data to provide real-time insights, including daily weather summaries, temperature rollups, and alert notifications when weather thresholds are exceeded. To optimize performance, the project leverages **React Server Components** for faster data fetching and improved UI responsiveness.
+
+![Weather Monitoring System](./images/banner.png)
 
 ## Table of Contents
 
@@ -30,6 +32,7 @@ This project implements a real-time weather monitoring system that retrieves dat
 - **User Subscription**: Users can subscribe to custom weather alerts and set thresholds for temperature monitoring.
 - **Alerts System**: The system sends email notifications to users when predefined weather conditions are exceeded.
 - **Visualizations**: Future updates will introduce dashboards for visualizing weather trends.
+- **React Server Components**: Utilized React Server Components to speed up data fetching and improve UI rendering by processing the most intensive server-side tasks.
 
 ## Technologies Used
 
@@ -41,7 +44,7 @@ This project implements a real-time weather monitoring system that retrieves dat
   - Node-cron for scheduled tasks
   - Nodemailer for email alerts
 - **Frontend**:
-  - Next.js
+  - Next.js (with React Server Components for improved performance)
   - Kinde for authentication
   - TailwindCSS for styling
 - **Other Tools**:
@@ -173,6 +176,7 @@ The system includes test cases to verify key functionalities:
 2. **Email Alerts**: Configured email alerts using Nodemailer.
 3. **Dockerized Setup**: Enabled containerization with Docker.
 4. **Extended Metrics**: Added support for humidity, wind speed, and other weather metrics.
+5. **React Server Components**: Used React Server Components for faster server-side data handling and performance optimization.
 
 ## Contact
 
