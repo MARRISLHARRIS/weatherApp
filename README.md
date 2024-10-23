@@ -1,6 +1,6 @@
 # Real-Time Weather Monitoring System
 
-This project is a real-time weather monitoring system that retrieves data from the [OpenWeatherMap API](https://openweathermap.org/) to track and summarize weather conditions for major Indian cities. It processes this data to provide real-time insights, including daily weather summaries, temperature rollups, and alerting functionality when certain weather thresholds are exceeded.
+This project implements a real-time weather monitoring system that retrieves data from the [OpenWeatherMap API](https://openweathermap.org/) to track and summarize weather conditions for major Indian cities. The system processes this data to provide real-time insights, including daily weather summaries, temperature rollups, and alert notifications when weather thresholds are exceeded.
 
 ## Table of Contents
 
@@ -12,24 +12,24 @@ This project is a real-time weather monitoring system that retrieves data from t
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Usage](#usage)
-    - [1. Fetching Weather Data](#1-fetching-weather-data)
-    - [2. User Subscription](#2-user-subscription)
-    - [3. Email Alerts](#3-email-alerts)
+    - [Fetching Weather Data](#fetching-weather-data)
+    - [User Subscription](#user-subscription)
+    - [Email Alerts](#email-alerts)
   - [Routes](#routes)
-    - [**User Routes**](#user-routes)
-    - [**Weather Routes**](#weather-routes)
+    - [User Routes](#user-routes)
+    - [Weather Routes](#weather-routes)
   - [Alerts](#alerts)
   - [Tests](#tests)
+  - [Bonus Features](#bonus-features)
+  - [Contact](#contact)
 
 ## Features
 
-- **Real-time Weather Monitoring**: Continuously fetches weather data for major Indian cities (Delhi, Mumbai, Chennai, Bangalore, Kolkata, Hyderabad) at configurable intervals (default: 5 minutes).
-- **Daily Weather Summaries**: Calculates daily aggregates, such as:
-  - Average, maximum, and minimum temperatures
-  - Dominant weather condition (e.g., Rain, Clear, Snow)
-- **User Subscription**: Allows users to subscribe to weather alerts and set custom thresholds for temperature.
-- **Alerts System**: Sends email alerts to users when weather conditions breach defined thresholds
-- **Visualizations**: (Optional) Future updates may include dashboards for visualizing weather trends.
+- **Real-time Weather Monitoring**: The system continuously retrieves weather data for major Indian cities (Delhi, Mumbai, Chennai, Bangalore, Kolkata, Hyderabad) at configurable intervals (default: 5 minutes).
+- **Daily Weather Summaries**: It computes daily weather aggregates such as average, maximum, and minimum temperatures, and identifies the dominant weather condition (e.g., Rain, Clear, Snow).
+- **User Subscription**: Users can subscribe to custom weather alerts and set thresholds for temperature monitoring.
+- **Alerts System**: The system sends email notifications to users when predefined weather conditions are exceeded.
+- **Visualizations**: Future updates will introduce dashboards for visualizing weather trends.
 
 ## Technologies Used
 
@@ -42,8 +42,8 @@ This project is a real-time weather monitoring system that retrieves data from t
   - Nodemailer for email alerts
 - **Frontend**:
   - Next.js
-  - Kinde (Authentication)
-  - TailwindCSS (Styling)
+  - Kinde for authentication
+  - TailwindCSS for styling
 - **Other Tools**:
   - Docker & Docker Compose (for containerization)
   - Environment variable management via `.env` files
@@ -54,24 +54,24 @@ This project is a real-time weather monitoring system that retrieves data from t
 
 - [Node.js](https://nodejs.org/en/) (version 14 or higher)
 - [MongoDB](https://www.mongodb.com/) (local or cloud instance)
-- OpenWeatherMap API Key (can be obtained [here](https://home.openweathermap.org/users/sign_up))
-- [Docker](https://www.docker.com/) (if you wish to run the app in containers)
+- OpenWeatherMap API Key (sign up [here](https://home.openweathermap.org/users/sign_up))
+- [Docker](https://www.docker.com/) (optional, for containerized deployment)
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/weather-monitoring-system.git
+   git clone https://github.com/thekavikumar/weatherapp.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd weather-monitoring-system
+   cd weatherapp
    ```
 
-3. Install the backend and frontend dependencies:
+3. Install backend and frontend dependencies:
 
    ```bash
    cd backend
@@ -86,30 +86,31 @@ This project is a real-time weather monitoring system that retrieves data from t
 
      ```bash
      EMAIL_USER=your_email@gmail.com
-     EMAIL_PASS=your_email_password
+     EMAIL_PASS=your_app_password
      WEATHER_API_KEY=your_openweathermap_api_key
-     MONGO_URI=mongodb://localhost:27017/weatherdb
+     MONGODB_URI=mongodb://admin:password@localhost:27017/weather_app?authSource=admin
      ```
 
    - Frontend `.env.local`:
+
      ```bash
      NEXT_PUBLIC_API_URL=http://localhost:5000
      ```
 
-5. If you're using Docker, create and run the containers:
+5. (Optional) If using Docker, create and run the containers:
 
    ```bash
    docker-compose up --build
    ```
 
-6. To start the backend server (if not using Docker):
+6. Start the backend server (if not using Docker):
 
    ```bash
    cd backend
    npm start
    ```
 
-7. To start the frontend app:
+7. Start the frontend app:
 
    ```bash
    cd frontend
@@ -120,21 +121,21 @@ This project is a real-time weather monitoring system that retrieves data from t
 
 ## Usage
 
-### 1. Fetching Weather Data
+### Fetching Weather Data
 
-The system automatically fetches weather data for the specified cities at 5-minute intervals using cron jobs. You can modify the interval in the `cron.schedule` expression inside the `server.js` file.
+The system fetches weather data for the configured cities every 5 minutes using cron jobs. You can adjust the interval in the `cron.schedule` expression in the `server.js` file.
 
-### 2. User Subscription
+### User Subscription
 
-Users can subscribe for weather alerts via API routes (see below). They can set custom thresholds for temperature alerts.
+Users can subscribe to receive weather alerts via the provided API routes (see below) and set custom thresholds for temperature alerts.
 
-### 3. Email Alerts
+### Email Alerts
 
-If the weather exceeds the user-defined thresholds, the system sends an email alert using Nodemailer.
+When weather conditions exceed user-defined thresholds, the system sends an email alert using Nodemailer.
 
 ## Routes
 
-### **User Routes**
+### User Routes
 
 | Route                                  | Method | Description                           |
 | -------------------------------------- | ------ | ------------------------------------- |
@@ -144,24 +145,37 @@ If the weather exceeds the user-defined thresholds, the system sends an email al
 | `/api/user/unsubscribe/:email`         | DELETE | Unsubscribe from weather alerts       |
 | `/api/user/alerts/:email`              | GET    | Retrieve all alerts sent to a user    |
 
-### **Weather Routes**
+### Weather Routes
 
 | Route                           | Method | Description                     |
 | ------------------------------- | ------ | ------------------------------- |
 | `/api/weather/weathersummaries` | GET    | Get all daily weather summaries |
-| `/api/weather/updates`          | GET    | Get all weather updates         |
+| `/api/weather/updates`          | GET    | Get all recent weather updates  |
 
 ## Alerts
 
-- **Alerting Thresholds**: Users can set custom temperature thresholds (e.g., get an alert if the temperature exceeds 35°C for two consecutive updates).
-- **Email Notifications**: Alerts are sent via email using Gmail's SMTP service.
+- **Alerting Thresholds**: Users can set custom thresholds for temperature (e.g., receive an alert if the temperature exceeds 35°C for two consecutive updates).
+- **Email Notifications**: Alerts are sent to users via Gmail's SMTP service.
 
 ## Tests
 
-The system has a few key test cases to verify functionality:
+The system includes test cases to verify key functionalities:
 
-1. **System Setup**: Verifies if the server starts and connects to the OpenWeatherMap API.
-2. **Data Retrieval**: Tests if API calls to OpenWeatherMap are made at specified intervals and data is parsed correctly.
-3. **Temperature Conversion**: Ensures the temperature values are correctly converted from Kelvin to Celsius (or Fahrenheit if extended).
-4. **Daily Weather Summaries**: Checks that daily summaries (average, max, min) are calculated accurately.
-5. **Alerting Mechanism**: Simulates weather conditions that breach user-defined thresholds to ensure alerts are sent correctly.
+1. **System Setup**: Ensures the server starts and connects to OpenWeatherMap API.
+2. **Data Retrieval**: Tests that API calls to OpenWeatherMap are made at scheduled intervals and the data is parsed correctly.
+3. **Temperature Conversion**: Confirms correct conversion of temperature from Kelvin to Celsius (or Fahrenheit, if extended).
+4. **Daily Weather Summaries**: Verifies that daily summaries (average, max, min) are computed accurately.
+5. **Alerting Mechanism**: Simulates weather conditions to ensure alerts are triggered when thresholds are breached.
+
+## Bonus Features
+
+1. **User Authentication**: Integrated user authentication using Kinde.
+2. **Email Alerts**: Configured email alerts using Nodemailer.
+3. **Dockerized Setup**: Enabled containerization with Docker.
+4. **Extended Metrics**: Added support for humidity, wind speed, and other weather metrics.
+
+## Contact
+
+- 📩 Email: kavikumar.hackathons@gmail.com
+- 🌐 LinkedIn: [Kavikumar M](https://www.linkedin.com/in/thekavikumar/)
+- 🚀 Portfolio: [kavikumar.vercel.app](https://kavikumar.vercel.app/)
