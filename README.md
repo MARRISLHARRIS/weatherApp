@@ -83,22 +83,7 @@ This project implements a real-time weather monitoring system that retrieves dat
    npm install
    ```
 
-4. Set up the `.env` files in both `backend/` and `frontend/` directories with the necessary environment variables:
-
-   - Backend `.env`:
-
-     ```bash
-     EMAIL_USER=your_email@gmail.com
-     EMAIL_PASS=your_app_password
-     WEATHER_API_KEY=your_openweathermap_api_key
-     MONGODB_URI=mongodb://admin:password@localhost:27017/weather_app?authSource=admin
-     ```
-
-   - Frontend `.env.local`:
-
-     ```bash
-     NEXT_PUBLIC_API_URL=http://localhost:5000
-     ```
+4. Rename the `.env.example` files in the `backend` and `frontend` directories to `.env` and you are good to go.
 
 5. (Optional) If using Docker, create and run the containers:
 
@@ -113,7 +98,7 @@ This project implements a real-time weather monitoring system that retrieves dat
    npm start
    ```
 
-7. Start the frontend app:
+7. Start the frontend app (if not using Docker):
 
    ```bash
    cd frontend
